@@ -1,0 +1,7 @@
+.controls-container {
+    display: flex
+}
+
+button {
+    margin: 20px 10px;
+}
