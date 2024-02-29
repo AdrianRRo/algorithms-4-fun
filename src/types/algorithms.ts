@@ -14,4 +14,11 @@ export interface InsertionStep extends BaseStep {
     sortedIndex: number
 }
 
-export type AnyStep = BubbleStep | InsertionStep;
+export interface SelectionStep extends BaseStep {
+    sorting: number, 
+    sortedIndex: number,
+    isSwap: boolean
+    biggestValue: number
+}
+
+export type AnyStep = BubbleStep | InsertionStep | SelectionStep;

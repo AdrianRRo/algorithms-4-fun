@@ -11,6 +11,7 @@ export const useSorting = <T extends AnyStep>(
 
   const handleSort = () => {
     const sortedSteps = sortingFunction(initialState.array);
+    // poner timer y devolverlo para comparar tiempos
     setSteps(sortedSteps);
     setCurrentStep(0);
     const interval = setInterval(() => {

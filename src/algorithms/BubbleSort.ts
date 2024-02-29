@@ -1,4 +1,5 @@
 import { BubbleStep } from "../types/algorithms";
+import { swap } from "./common";
 
 export const bubbleSort = (array: number[]): Array<BubbleStep> => {
     const len = array.length;
@@ -11,10 +12,9 @@ export const bubbleSort = (array: number[]): Array<BubbleStep> => {
           const right = array[j + 1]
           steps.push({ array: [...array], leftValue: left , rightValue: right, solutionLength: len - remainingArrayLen})
             if ( left > right ) {
-                array[j] = right
-                array[j + 1] = left
-                isSwap = true;
-                steps.push({ array: [...array] , leftValue: array[j] , rightValue: array[j + 1], isSwap, solutionLength: len - remainingArrayLen})
+              swap(array, j, j + 1)
+              isSwap = true;
+              steps.push({ array: [...array] , leftValue: array[j] , rightValue: array[j + 1], isSwap, solutionLength: len - remainingArrayLen})
             }
         }
     }
