@@ -7,7 +7,7 @@ import { useSorting } from '../../hooks/useSorting';
 import './QuickSort.css'
 
 const QuickSort: React.FC = () => {
-  const initialStep = { array: resetColors([5, 1, 8, 4, 2, 7, 3, 6])};
+  const initialStep = { array: resetColors([6, 1, 8, 4, 2, 7, 3, 5])};
   const {steps, currentStep, handleSort} = useSorting(initialStep , quickSort )
 
   return (
