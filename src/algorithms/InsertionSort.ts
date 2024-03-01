@@ -1,16 +1,25 @@
-import { InsertionStep } from "../types/algorithms";
+import { BaseStep, Item } from "../types/algorithms";
+import { StepColors } from "../types/colors";
+import { setColors, swap } from "./common";
 
-export const insertionSort = (array: number[]): InsertionStep[] => {
+export const insertionSort = (array: Item[]): BaseStep[] => {
     const len = array.length;
-    const steps: InsertionStep[] = [];
+    const steps: BaseStep[] = [];
     for(let i = 1; i < len; i++) {
-      let key = array[i];
+      let key = array[i].value;
       let j = i - 1;
-      steps.push({ array: [...array], sorting: key, sortedIndex: i })
-      while(j >= 0 && array[j] > key) {
-        array[j + 1] = array[j];
-        array[j] = key;
-        steps.push({ array: [...array], sorting: key, sortedIndex: i })
+      array = setColors(array, [ 
+        { value: array[i].value, color: StepColors.HANDLING },
+       ], -1,
+       i);
+      steps.push({ array: [...array] })
+      while(j >= 0 && array[j].value > key) {
+        swap(array, j, j + 1);
+        array = setColors(array, [ 
+          { value: array[j].value, color: StepColors.HANDLING },
+         ], -1,
+         i);
+        steps.push({ array: [...array] })
         j = j - 1;
       }
     }

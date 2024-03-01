@@ -1,16 +1,17 @@
 import { useState } from 'react';
-import { AnyStep } from '../types/algorithms';
+import { BaseStep, Item } from '../types/algorithms';
 
-export const useSorting = <T extends AnyStep>(
-    initialState: T,
-    sortingFunction: (array: number[]) => T[],
+export const useSorting = (
+    initialState: BaseStep,
+    sortingFunction: (array: Item[]) => BaseStep[],
     timeBetweenSteps = 1000
 ) => {
-  const [steps, setSteps] = useState<T[]>([initialState]);
+  const [steps, setSteps] = useState<BaseStep[]>([initialState]);
   const [currentStep, setCurrentStep] = useState<number>(0);
 
   const handleSort = () => {
     const sortedSteps = sortingFunction(initialState.array);
+    // poner timer y devolverlo para comparar tiempos
     setSteps(sortedSteps);
     setCurrentStep(0);
     const interval = setInterval(() => {

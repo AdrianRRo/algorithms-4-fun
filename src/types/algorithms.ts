@@ -1,17 +1,10 @@
-interface BaseStep {
-    array: number[];
+import { StepColors } from "./colors";
+
+export interface Item {
+    value: number,
+    color: StepColors
 }
 
-export interface BubbleStep extends BaseStep {
-    leftValue: number, 
-    rightValue: number, 
-    isSwap?: boolean, 
-    solutionLength: number
+export interface BaseStep {
+    array: Item[];
 }
-
-export interface InsertionStep extends BaseStep {
-    sorting: number, 
-    sortedIndex: number
-}
-
-export type AnyStep = BubbleStep | InsertionStep;

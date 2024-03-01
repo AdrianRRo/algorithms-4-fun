@@ -1,25 +1,26 @@
 import React from 'react';
-import { bubbleSort } from '../../algorithms/BubbleSort';
 import { resetColors } from '../../algorithms/common';
+import { quickSort } from '../../algorithms/QuickSort';
 import Controls from '../../components/Controls/Controls';
 import Item from '../../components/Item/Item';
 import { useSorting } from '../../hooks/useSorting';
-import './BubbleSort.css'
+import './QuickSort.css'
 
-const BubbleSort: React.FC = () => {
-  let initialStep = { array: resetColors([5, 3, 8, 4, 2, 7, 1, 6])};
-  const {steps, currentStep, handleSort} = useSorting(initialStep, bubbleSort)
+const QuickSort: React.FC = () => {
+  const initialStep = { array: resetColors([6, 1, 8, 4, 2, 7, 3, 5])};
+  const {steps, currentStep, handleSort} = useSorting(initialStep , quickSort )
+
   return (
-    <Controls onButtonClick={handleSort} text={'Bubble Sort Visualization'}>
+    <Controls onButtonClick={handleSort} text={'Quick Sort Visualization'}>
       {steps[currentStep].array.map((item) => (
-          <Item
+          <Item 
             key={item.value} 
             text={item.value} 
             color={item.color}
-            />
+          />
         ))}
     </Controls>
   );
 };
 
-export default BubbleSort;
+export default QuickSort;
