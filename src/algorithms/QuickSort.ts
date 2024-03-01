@@ -8,7 +8,6 @@ import { setColors, swap } from "./common";
     } else {
         const pivotIndex = Math.floor((end - initial) / 2) + initial;
         const pivot = initialArray[pivotIndex].value;
-        // Pintar de gris los que esten fuera del array que estoy contemplando
         const nonUsedItems = [];
         for(let i = 0; i < initialArray.length; i++) {
             if(i < initial || i > end) {
@@ -22,7 +21,6 @@ import { setColors, swap } from "./common";
            0);
         steps.push({ array: [...initialArray] })
 
-        // Set pivot color and nonUsedItems
         initialArray = setColors(initialArray, [ 
             { value: pivot, color: StepColors.PIVOT },
             ...nonUsedItems
@@ -30,7 +28,6 @@ import { setColors, swap } from "./common";
            0);
         steps.push({ array: [...initialArray] })
 
-        // Set pivot change with last element
         initialArray = setColors(initialArray, [ 
             { value: pivot, color: StepColors.SWAP },
             { value: initialArray[end].value, color: StepColors.SWAP },
@@ -39,10 +36,8 @@ import { setColors, swap } from "./common";
             0);
         steps.push({ array: [...initialArray] })
 
-        // Swap elements in both arrays
         swap(initialArray, pivotIndex, end);
 
-        // Show SWAP
         initialArray = setColors(initialArray, [ 
             { value: initialArray[pivotIndex].value, color: StepColors.SWAP },
             { value: pivot, color: StepColors.SWAP },
@@ -51,7 +46,6 @@ import { setColors, swap } from "./common";
             0);
         steps.push({ array: [...initialArray] })
         
-        // Show only Pivot and nunUsedItems again (this time pivot is in last position)
         initialArray = setColors(initialArray, [ 
             { value: pivot, color: StepColors.PIVOT },
             ...nonUsedItems
@@ -62,7 +56,6 @@ import { setColors, swap } from "./common";
         const minorItemValues: Item[] = [];
         const majorItemValues: Item[] = [];
         
-        // Find minor and majors items and color them
         for (let i = initial; i < end; i++) {
             if (initialArray[i].value < pivot) {
                 minorItemValues.push(initialArray[i]);
