@@ -1,0 +1,30 @@
+.graph-table {
+  margin-top: 1rem;
+}
+
+.graph-table h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.graph-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+}
+
+.graph-table th,
+.graph-table td {
+  border: 1px solid #e0e0e0;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.graph-table th {
+  background-color: #f7f7f7;
+  font-weight: 600;
+}
+
+.graph-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}

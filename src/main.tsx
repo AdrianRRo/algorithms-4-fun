@@ -6,6 +6,7 @@ import BubbleSort from './pages/BubbleSort/BubbleSort'
 import SelectionSort from './pages/SelectionSort/SelectionSort'
 import './index.css'
 import QuickSort from './pages/QuickSort/QuickSort'
+import Dijkstra from './pages/Dijkstra/Dijkstra'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -13,5 +14,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BubbleSort />
     <SelectionSort />
     <QuickSort />
+    <Dijkstra />
   </React.StrictMode>,
 )
