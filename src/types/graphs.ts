@@ -16,7 +16,14 @@ export interface GraphEdge {
  */
 export type WeightedAdjacencyList = Record<string, GraphEdge[]>;
 
+export type UnweightedAdjacencyMap = Map<string, string[]>;
+
 export interface DijkstraResult {
+  distances: Map<string, number>;
+  previous: Map<string, string>;
+}
+
+export interface BFSResult {
   distances: Map<string, number>;
   previous: Map<string, string>;
 }

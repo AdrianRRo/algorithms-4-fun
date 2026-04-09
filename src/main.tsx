@@ -7,6 +7,7 @@ import SelectionSort from './pages/SelectionSort/SelectionSort'
 import './index.css'
 import QuickSort from './pages/QuickSort/QuickSort'
 import Dijkstra from './pages/Dijkstra/Dijkstra'
+import BFS from './pages/BFS/BFS'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -15,5 +16,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <SelectionSort />
     <QuickSort />
     <Dijkstra />
+    <BFS />
   </React.StrictMode>,
 )

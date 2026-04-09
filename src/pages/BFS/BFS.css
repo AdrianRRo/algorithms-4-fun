@@ -1,0 +1,27 @@
+.bfs-page {
+  padding: 1.5rem 0;
+}
+
+.bfs-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 480px;
+}
+
+.bfs-label {
+  font-weight: 600;
+}
+
+.bfs-select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  max-width: 200px;
+}
+
+.bfs-tables {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
