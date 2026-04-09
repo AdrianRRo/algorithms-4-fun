@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { bfs } from '../../src/algorithms/BFS';
-import { WeightedAdjacencyList } from '../../src/types/graphs';
+import { BFSResult, WeightedAdjacencyList } from '../../src/types/graphs';
 
 describe('bfs', () => {
   it('calcula las distancias en un grafo simple', () => {
@@ -91,5 +91,61 @@ describe('bfs', () => {
     expect(result.previous.get('D')).toBe('B');
     expect(result.previous.get('B')).toBe('A');
     expect(result.previous.get('C')).toBe('A');
+  });
+
+  it('maneja correctamente un grafo diamante', () => {
+    // Los pesos son simbólicos y mantienen la firma del tipo `WeightedAdjacencyList`.
+    const graph: WeightedAdjacencyList = {
+      A: [
+        { to: 'B', weight: 1 },
+        { to: 'C', weight: 1 },
+      ],
+      B: [{ to: 'D', weight: 1 }],
+      C: [{ to: 'D', weight: 1 }],
+      D: [],
+    };
+
+    // Helper local para reconstruir el orden real de visita a partir del resultado y el grafo.
+    const obtenerOrdenDeVisita = (
+      adjacency: WeightedAdjacencyList,
+      start: string,
+      result: BFSResult,
+    ): string[] => {
+      const order: string[] = [start];
+      const queue: string[] = [start];
+      const visited = new Set<string>([start]);
+
+      while (queue.length > 0) {
+        const current = queue.shift()!;
+        const neighbors = adjacency[current] ?? [];
+
+        neighbors.forEach((edge) => {
+          const next = edge.to;
+          const currentDistance = result.distances.get(current) ?? Number.POSITIVE_INFINITY;
+          const nextDistance = result.distances.get(next) ?? Number.POSITIVE_INFINITY;
+
+          if (nextDistance === currentDistance + 1 && !visited.has(next)) {
+            visited.add(next);
+            order.push(next);
+            queue.push(next);
+          }
+        });
+      }
+
+      return order;
+    };
+
+    const result = bfs(graph, 'A');
+
+    expect(result.distances.get('A')).toBe(0);
+    expect(result.distances.get('B')).toBe(1);
+    expect(result.distances.get('C')).toBe(1);
+    expect(result.distances.get('D')).toBe(2);
+
+    expect(result.previous.get('B')).toBe('A');
+    expect(result.previous.get('C')).toBe('A');
+    expect(result.previous.get('D')).toBe('B');
+
+    expect(obtenerOrdenDeVisita(graph, 'A', result)).toEqual(['A', 'B', 'C', 'D']);
   });
 });
