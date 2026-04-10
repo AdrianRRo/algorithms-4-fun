@@ -1,11 +1,11 @@
 import { StepColors } from './colors'
 
-export interface NodePosition {
+export interface CellPosition {
   row: number
   col: number
 }
 
-export interface GridNode {
+export interface GridCellState {
   id: string
   row: number
   col: number
@@ -19,11 +19,11 @@ export interface PathfindingMetadata {
   description?: string
   openSet?: string[]
   closedSet?: string[]
-  current?: NodePosition
+  current?: CellPosition
   path?: string[]
 }
 
 export interface PathfindingStep {
-  grid: GridNode[][]
+  grid: GridCellState[][]
   metadata?: PathfindingMetadata
 }

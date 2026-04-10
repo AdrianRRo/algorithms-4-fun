@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { AStar, Node } from '../../algorithms/AStar'
+import { AStar, GridCell } from '../../algorithms/AStar'
 import './AStar.css'
 
 const GRID_WIDTH = 20
@@ -10,10 +10,10 @@ const AStarVisualization: React.FC = () => {
   const [grid, setGrid] = useState<number[][]>([])
   const [start, setStart] = useState<[number, number]>([0, 0])
   const [end, setEnd] = useState<[number, number]>([GRID_WIDTH - 1, GRID_HEIGHT - 1])
-  const [path, setPath] = useState<Node[]>([])
-  const [visited, setVisited] = useState<Node[]>([])
-  const [openSet, setOpenSet] = useState<Node[]>([])
-  const [closedSet, setClosedSet] = useState<Node[]>([])
+  const [path, setPath] = useState<GridCell[]>([])
+  const [visited, setVisited] = useState<GridCell[]>([])
+  const [openSet, setOpenSet] = useState<GridCell[]>([])
+  const [closedSet, setClosedSet] = useState<GridCell[]>([])
   const [isRunning, setIsRunning] = useState(false)
   const [speed, setSpeed] = useState(50)
   const [heuristic, setHeuristic] = useState<'manhattan' | 'euclidean' | 'diagonal'>('manhattan')
@@ -195,8 +195,8 @@ const AStarVisualization: React.FC = () => {
     setIsRunning(false)
   }, [allowDiagonal, end, grid, heuristic, isRunning, speed, start])
 
-  const isNodeInList = useCallback((nodes: Node[], x: number, y: number) => {
-    return nodes.some((node) => node.x === x && node.y === y)
+  const isCellInList = useCallback((cells: GridCell[], x: number, y: number) => {
+    return cells.some((cell) => cell.x === x && cell.y === y)
   }, [])
 
   const getCellColor = (x: number, y: number): string => {
@@ -212,19 +212,19 @@ const AStarVisualization: React.FC = () => {
       return '#333333'
     }
 
-    if (isNodeInList(path, x, y)) {
+    if (isCellInList(path, x, y)) {
       return '#2196F3'
     }
 
-    if (isNodeInList(visited, x, y)) {
+    if (isCellInList(visited, x, y)) {
       return '#FF9800'
     }
 
-    if (isNodeInList(openSet, x, y)) {
+    if (isCellInList(openSet, x, y)) {
       return '#9C27B0'
     }
 
-    if (isNodeInList(closedSet, x, y)) {
+    if (isCellInList(closedSet, x, y)) {
       return '#8D6E63'
     }
 
@@ -368,8 +368,8 @@ Double-click: Set end'}
       </div>
 
       <div className="stats">
-        <p>Path length: {path.length} nodes</p>
-        <p>Nodes visited: {visited.length}</p>
+        <p>Path length: {path.length} cells</p>
+        <p>Cells visited: {visited.length}</p>
         <p>Open set size: {openSet.length}</p>
         <p>Closed set size: {closedSet.length}</p>
         <p>Status: {statusText}</p>

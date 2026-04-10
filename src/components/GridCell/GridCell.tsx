@@ -1,31 +1,31 @@
 import React from 'react'
-import { GridNode } from '../../types/pathfinding'
+import { GridCellState } from '../../types/pathfinding'
 import { StepColors } from '../../types/colors'
 import './GridCell.css'
 
 interface GridCellProps {
-  node: GridNode
+  cell: GridCellState
 }
 
-const GridCell: React.FC<GridCellProps> = ({ node }) => {
+const GridCell: React.FC<GridCellProps> = ({ cell }) => {
   let label = ''
 
-  if (node.isStart) {
+  if (cell.isStart) {
     label = 'S'
-  } else if (node.isGoal) {
+  } else if (cell.isGoal) {
     label = 'G'
-  } else if (node.color === StepColors.PATHFIND_PATH) {
+  } else if (cell.color === StepColors.PATHFIND_PATH) {
     label = '•'
   }
 
-  const textColor = node.isStart || node.isGoal ? '#f8fafc' : '#1f2937'
+  const textColor = cell.isStart || cell.isGoal ? '#f8fafc' : '#1f2937'
 
   return (
     <div
       className="grid-cell"
-      style={{ backgroundColor: node.color, color: textColor }}
-      title={`Celda ${node.row}, ${node.col}`}
-      aria-label={`Celda ${node.id}`}
+      style={{ backgroundColor: cell.color, color: textColor }}
+      title={`Cell ${cell.row}, ${cell.col}`}
+      aria-label={`Cell ${cell.id}`}
     >
       {label}
     </div>

@@ -1,39 +1,39 @@
 /**
- * Implementación del algoritmo A* para pathfinding
+ * Implementación del algoritmo A* para pathfinding en un grid 2D
  */
 
-export interface Node {
+export interface GridCell {
   x: number;
   y: number;
   walkable: boolean;
   g: number;
   h: number;
   f: number;
-  parent: Node | null;
+  parent: GridCell | null;
 }
 
-export interface Grid {
+export interface Grid2D {
   width: number;
   height: number;
-  nodes: Node[][];
+  cells: GridCell[][];
 }
 
 export interface AStarResult {
-  path: Node[];
-  visited: Node[];
-  openSet: Node[];
-  closedSet: Node[];
+  path: GridCell[];
+  visited: GridCell[];
+  openSet: GridCell[];
+  closedSet: GridCell[];
   success: boolean;
 }
 
 export class AStar {
-  private grid: Grid;
+  private grid: Grid2D;
 
-  private start: Node;
+  private start: GridCell;
 
-  private end: Node;
+  private end: GridCell;
 
-  private heuristic: (a: Node, b: Node) => number;
+  private heuristic: (a: GridCell, b: GridCell) => number;
 
   private allowDiagonal: boolean;
 
@@ -44,9 +44,9 @@ export class AStar {
     heuristicType: 'manhattan' | 'euclidean' | 'diagonal' = 'manhattan',
     allowDiagonal: boolean = true,
   ) {
-    this.grid = this.createGrid(grid);
-    this.start = this.grid.nodes[start[1]][start[0]];
-    this.end = this.grid.nodes[end[1]][end[0]];
+    this.grid = this.buildGrid(grid);
+    this.start = this.grid.cells[start[1]][start[0]];
+    this.end = this.grid.cells[end[1]][end[0]];
     this.heuristic = this.getHeuristic(heuristicType);
     this.allowDiagonal = allowDiagonal;
 
@@ -54,15 +54,15 @@ export class AStar {
     this.end.walkable = true;
   }
 
-  private createGrid(matrix: number[][]): Grid {
+  private buildGrid(matrix: number[][]): Grid2D {
     const height = matrix.length;
     const width = matrix[0]?.length ?? 0;
-    const nodes: Node[][] = [];
+    const cells: GridCell[][] = [];
 
     for (let y = 0; y < height; y += 1) {
-      nodes[y] = [];
+      cells[y] = [];
       for (let x = 0; x < width; x += 1) {
-        nodes[y][x] = {
+        cells[y][x] = {
           x,
           y,
           walkable: matrix[y][x] === 0,
@@ -74,10 +74,10 @@ export class AStar {
       }
     }
 
-    return { width, height, nodes };
+    return { width, height, cells };
   }
 
-  private getHeuristic(type: string): (a: Node, b: Node) => number {
+  private getHeuristic(type: string): (a: GridCell, b: GridCell) => number {
     switch (type) {
       case 'euclidean':
         return (a, b) => Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
@@ -89,8 +89,8 @@ export class AStar {
     }
   }
 
-  private getNeighbors(node: Node): Node[] {
-    const neighbors: Node[] = [];
+  private getNeighbors(cell: GridCell): GridCell[] {
+    const neighbors: GridCell[] = [];
     const baseDirections: Array<[number, number]> = [
       [0, -1],
       [1, 0],
@@ -109,14 +109,14 @@ export class AStar {
       : baseDirections;
 
     for (const [dx, dy] of directions) {
-      const x = node.x + dx;
-      const y = node.y + dy;
+      const x = cell.x + dx;
+      const y = cell.y + dy;
 
       if (x < 0 || x >= this.grid.width || y < 0 || y >= this.grid.height) {
         continue;
       }
 
-      const neighbor = this.grid.nodes[y][x];
+      const neighbor = this.grid.cells[y][x];
       if (neighbor.walkable) {
         neighbors.push(neighbor);
       }
@@ -125,7 +125,7 @@ export class AStar {
     return neighbors;
   }
 
-  private getDistance(a: Node, b: Node): number {
+  private getCellDistance(a: GridCell, b: GridCell): number {
     const dx = Math.abs(a.x - b.x);
     const dy = Math.abs(a.y - b.y);
 
@@ -137,9 +137,9 @@ export class AStar {
   }
 
   public findPath(): AStarResult {
-    const openSet: Node[] = [this.start];
-    const closedSet: Node[] = [];
-    const visited: Node[] = [];
+    const openSet: GridCell[] = [this.start];
+    const closedSet: GridCell[] = [];
+    const visited: GridCell[] = [];
 
     this.start.g = 0;
     this.start.h = this.heuristic(this.start, this.end);
@@ -182,7 +182,7 @@ export class AStar {
           continue;
         }
 
-        const tentativeG = current.g + this.getDistance(current, neighbor);
+        const tentativeG = current.g + this.getCellDistance(current, neighbor);
 
         const inOpenSet = openSet.includes(neighbor);
         if (!inOpenSet || tentativeG < neighbor.g) {
@@ -207,9 +207,9 @@ export class AStar {
     };
   }
 
-  private reconstructPath(node: Node): Node[] {
-    const path: Node[] = [];
-    let current: Node | null = node;
+  private reconstructPath(cell: GridCell): GridCell[] {
+    const path: GridCell[] = [];
+    let current: GridCell | null = cell;
 
     while (current) {
       path.unshift(current);

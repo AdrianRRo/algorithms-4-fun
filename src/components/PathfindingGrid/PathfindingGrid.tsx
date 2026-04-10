@@ -1,6 +1,7 @@
 import React from 'react';
-import { CellState } from '../../types/pathfinding';
 import './PathfindingGrid.css';
+
+type CellState = 'empty' | 'wall' | 'start' | 'goal' | 'open' | 'closed' | 'path' | 'current';
 
 const CELL_CLASS_MAP: Record<CellState, string> = {
   empty: 'pathfinding-grid__cell--empty',
