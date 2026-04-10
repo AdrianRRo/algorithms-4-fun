@@ -1,30 +1,48 @@
-# React + TypeScript + Vite
+# Algorithms 4 Fun
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Colección de visualizaciones interactivas y utilidades para estudiar algoritmos clásicos implementados en TypeScript/React y Python.
 
-Currently, two official plugins are available:
+## Algoritmos implementados
+- Bubble Sort
+- Insertion Sort
+- Selection Sort
+- Quick Sort
+- **Merge Sort** (visualización interactiva + implementación en Python y TypeScript)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Merge Sort
+Merge Sort es un algoritmo de ordenamiento con enfoque *divide y vencerás* que divide el array original en subarrays cada vez más pequeños hasta llegar a unidades indivisibles. Luego, los subarrays se fusionan en orden ascendente.
 
-## Expanding the ESLint configuration
+- Complejidad temporal: **O(n log n)**
+- Complejidad espacial: **O(n)** (requiere buffers auxiliares durante la fusión)
+- Características destacadas:
+  - Implementación funcional en TypeScript (`src/algorithms/MergeSort.ts`)
+  - Visualización paso a paso con controles interactivos (`src/pages/MergeSort/`)
+  - Implementación de referencia y pruebas en Python (`src/python/merge_sort.py`)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Desarrollo
+1. Instalar dependencias:
+   ```bash
+yarn install
+   ```
+2. Ejecutar el entorno de desarrollo (Vite):
+   ```bash
+yarn dev
+   ```
+3. Abrir `http://localhost:5173` en el navegador para explorar las visualizaciones.
 
-- Configure the top-level `parserOptions` property like this:
+## Pruebas
+- Pruebas de TypeScript (Vitest):
+  ```bash
+yarn test
+  ```
+- Pruebas de Python (pytest):
+  ```bash
+pytest src/python
+  ```
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Estructura destacada
+- `src/algorithms/` — Implementaciones en TypeScript de los algoritmos.
+- `src/pages/` — Componentes React con visualizaciones.
+- `src/python/` — Implementaciones y pruebas en Python para validación adicional.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+¡Explora, modifica y aprende algoritmos con visualizaciones amigables y código acompañante! :rocket:

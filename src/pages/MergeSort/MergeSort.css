@@ -1,0 +1,160 @@
+.merge-sort {
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 24px auto;
+  max-width: 960px;
+  box-shadow: 0 20px 35px rgba(15, 23, 42, 0.5);
+}
+
+.merge-sort__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.merge-sort__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.merge-sort__controls button {
+  background: #1d4ed8;
+  border: none;
+  border-radius: 8px;
+  color: #f8fafc;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 10px 16px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.merge-sort__controls button:disabled {
+  background: #475569;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.merge-sort__controls button:not(:disabled):hover,
+.merge-sort__controls button:not(:disabled):focus-visible {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.merge-sort__speed {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.merge-sort__speed input[type='range'] {
+  accent-color: #38bdf8;
+  flex: 1;
+}
+
+.merge-sort__content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.merge-sort__bars {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 12px;
+}
+
+.bar {
+  position: relative;
+  width: 32px;
+  border-radius: 8px 8px 0 0;
+  background: #3b82f6;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.bar__value {
+  position: absolute;
+  bottom: -24px;
+  font-size: 0.85rem;
+  color: #cbd5f5;
+}
+
+.bar--left {
+  background: #f97316;
+}
+
+.bar--right {
+  background: #22c55e;
+}
+
+.bar--merged {
+  background: #a855f7;
+  transform: scaleY(1.05);
+}
+
+.merge-sort__details {
+  flex-basis: 240px;
+  flex-grow: 0;
+  background: rgba(15, 23, 42, 0.85);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.merge-sort__description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.merge-sort__table {
+  display: grid;
+  gap: 12px;
+}
+
+.merge-sort__table h4 {
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  color: #bae6fd;
+}
+
+.merge-sort__table p {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  color: #e2e8f0;
+}
+
+@media (max-width: 768px) {
+  .merge-sort {
+    padding: 20px;
+  }
+
+  .merge-sort__controls {
+    justify-content: center;
+  }
+
+  .merge-sort__bars {
+    min-height: 260px;
+  }
+
+  .bar__value {
+    font-size: 0.75rem;
+  }
+}

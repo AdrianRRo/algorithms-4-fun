@@ -1,125 +1,128 @@
-import { BaseStep, Item } from "../types/algorithms";
-import { StepColors } from "../types/colors";
-import { setColors, swap } from "./common";
+export type MergeSortStep = {
+  array: number[];
+  left: number[];
+  right: number[];
+  merged: number[];
+  phase: 'split' | 'merge';
+  description: string;
+};
 
-const cloneItems = (items: Item[]): Item[] =>
-  items.map((item) => ({ value: item.value, color: item.color }));
+export const merge = (left: number[], right: number[]): number[] => {
+  const merged: number[] = [];
+  let leftIndex = 0;
+  let rightIndex = 0;
 
-const arraysMatch = (left: Item[], right: Item[]): boolean =>
-  left.length === right.length &&
-  left.every(
-    (item, index) =>
-      item.value === right[index].value && item.color === right[index].color,
-  );
-
-export const mergeSort = (array: Item[]): BaseStep[] => {
-  let workingArray = cloneItems(array);
-  const steps: BaseStep[] = [];
-
-  const pushStep = () => {
-    const snapshot = cloneItems(workingArray);
-    const lastStep = steps[steps.length - 1];
-
-    if (!lastStep || !arraysMatch(lastStep.array, snapshot)) {
-      steps.push({ array: snapshot });
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if (left[leftIndex] <= right[rightIndex]) {
+      merged.push(left[leftIndex]);
+      leftIndex += 1;
+    } else {
+      merged.push(right[rightIndex]);
+      rightIndex += 1;
     }
-  };
-
-  const recordComparison = (
-    start: number,
-    current: number,
-    coloredItems: Item[],
-  ) => {
-    workingArray = setColors(workingArray, coloredItems, start - 1, current - 1, true);
-    pushStep();
-  };
-
-  const placeValue = (start: number, current: number, value: number) => {
-    workingArray[current] = { value, color: StepColors.SWAP };
-    swap(workingArray, current, current);
-    pushStep();
-    workingArray = setColors(workingArray, [], start - 1, current, true);
-    pushStep();
-  };
-
-  const merge = (start: number, mid: number, end: number) => {
-    const buffer = cloneItems(workingArray.slice(start, end + 1)).map((item) => ({
-      value: item.value,
-      color: StepColors.DEFAULT,
-    }));
-
-    let left = 0;
-    let right = mid - start + 1;
-    let current = start;
-    const leftLimit = mid - start;
-    const rightLimit = end - start;
-
-    while (left <= leftLimit && right <= rightLimit) {
-      const leftItem = buffer[left];
-      const rightItem = buffer[right];
-
-      recordComparison(start, current, [
-        { value: leftItem.value, color: StepColors.HANDLING },
-        { value: rightItem.value, color: StepColors.HANDLING },
-      ]);
-
-      if (leftItem.value <= rightItem.value) {
-        placeValue(start, current, leftItem.value);
-        left += 1;
-      } else {
-        placeValue(start, current, rightItem.value);
-        right += 1;
-      }
-
-      current += 1;
-    }
-
-    while (left <= leftLimit) {
-      const buffered = buffer[left];
-      recordComparison(start, current, [
-        { value: buffered.value, color: StepColors.HANDLING },
-      ]);
-      placeValue(start, current, buffered.value);
-      left += 1;
-      current += 1;
-    }
-
-    while (right <= rightLimit) {
-      const buffered = buffer[right];
-      recordComparison(start, current, [
-        { value: buffered.value, color: StepColors.HANDLING },
-      ]);
-      placeValue(start, current, buffered.value);
-      right += 1;
-      current += 1;
-    }
-
-    workingArray = setColors(workingArray, [], start - 1, end, true);
-    pushStep();
-  };
-
-  const mergeSortRecursive = (start: number, end: number): void => {
-    if (start >= end) {
-      return;
-    }
-
-    const mid = Math.floor((start + end) / 2);
-    mergeSortRecursive(start, mid);
-    mergeSortRecursive(mid + 1, end);
-    merge(start, mid, end);
-  };
-
-  if (workingArray.length === 0) {
-    steps.push({ array: [] });
-    return steps;
   }
 
-  workingArray = setColors(workingArray, [], -1, -1);
-  pushStep();
-  mergeSortRecursive(0, workingArray.length - 1);
+  while (leftIndex < left.length) {
+    merged.push(left[leftIndex]);
+    leftIndex += 1;
+  }
 
-  workingArray = setColors(workingArray, [], -1, workingArray.length - 1);
-  pushStep();
+  while (rightIndex < right.length) {
+    merged.push(right[rightIndex]);
+    rightIndex += 1;
+  }
+
+  return merged;
+};
+
+export const mergeSort = (arr: number[]): number[] => {
+  if (arr.length <= 1) {
+    return arr.slice();
+  }
+
+  const divide = (subArray: number[]): number[] => {
+    if (subArray.length <= 1) {
+      return subArray.slice();
+    }
+
+    const mid = Math.floor(subArray.length / 2);
+    const leftSorted = divide(subArray.slice(0, mid));
+    const rightSorted = divide(subArray.slice(mid));
+
+    return merge(leftSorted, rightSorted);
+  };
+
+  return divide(arr.slice());
+};
+
+export const getMergeSortSteps = (arr: number[]): MergeSortStep[] => {
+  if (arr.length === 0) {
+    return [
+      {
+        array: [],
+        left: [],
+        right: [],
+        merged: [],
+        phase: 'merge',
+        description: 'Array vacío: no hay elementos para ordenar.',
+      },
+    ];
+  }
+
+  const steps: MergeSortStep[] = [];
+
+  const divide = (subArray: number[]): number[] => {
+    if (subArray.length <= 1) {
+      steps.push({
+        array: subArray.slice(),
+        left: [],
+        right: [],
+        merged: subArray.slice(),
+        phase: 'merge',
+        description: 'Subarray de un elemento: no se divide.',
+      });
+      return subArray.slice();
+    }
+
+    const mid = Math.floor(subArray.length / 2);
+    const left = subArray.slice(0, mid);
+    const right = subArray.slice(mid);
+
+    steps.push({
+      array: subArray.slice(),
+      left: left.slice(),
+      right: right.slice(),
+      merged: [],
+      phase: 'split',
+      description: `Dividiendo el subarray [${subArray.join(', ')}] en [${left.join(', ')}] y [${right.join(', ')}].`,
+    });
+
+    const sortedLeft = divide(left);
+    const sortedRight = divide(right);
+    const merged = merge(sortedLeft, sortedRight);
+
+    steps.push({
+      array: merged.slice(),
+      left: sortedLeft.slice(),
+      right: sortedRight.slice(),
+      merged: merged.slice(),
+      phase: 'merge',
+      description: `Fusionando [${sortedLeft.join(', ')}] y [${sortedRight.join(', ')}] en [${merged.join(', ')}].`,
+    });
+
+    return merged;
+  };
+
+  const sorted = divide(arr.slice());
+
+  steps.push({
+    array: sorted.slice(),
+    left: [],
+    right: [],
+    merged: sorted.slice(),
+    phase: 'merge',
+    description: 'Array totalmente ordenado.',
+  });
 
   return steps;
 };
