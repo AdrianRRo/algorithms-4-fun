@@ -6,6 +6,7 @@ import BubbleSort from './pages/BubbleSort/BubbleSort'
 import SelectionSort from './pages/SelectionSort/SelectionSort'
 import './index.css'
 import QuickSort from './pages/QuickSort/QuickSort'
+import AStar from './pages/AStar'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

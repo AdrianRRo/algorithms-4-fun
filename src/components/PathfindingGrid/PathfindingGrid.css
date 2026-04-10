@@ -1,0 +1,81 @@
+.pathfinding-grid__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.5rem 0;
+  width: 100%;
+}
+
+.pathfinding-grid__description {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #495057;
+  text-align: center;
+  max-width: 36rem;
+}
+
+.pathfinding-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pathfinding-grid__row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pathfinding-grid__cell {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #212529;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.pathfinding-grid__cell--empty {
+  background-color: #f8f9fa;
+}
+
+.pathfinding-grid__cell--wall {
+  background-color: #343a40;
+  color: #f8f9fa;
+}
+
+.pathfinding-grid__cell--start {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.pathfinding-grid__cell--goal {
+  background-color: #d6336c;
+  color: #fff;
+}
+
+.pathfinding-grid__cell--open {
+  background-color: #a3cfbb;
+  color: #0f5132;
+}
+
+.pathfinding-grid__cell--closed {
+  background-color: #ced4da;
+  color: #343a40;
+}
+
+.pathfinding-grid__cell--path {
+  background-color: #ffe066;
+  color: #343a40;
+}
+
+.pathfinding-grid__cell--current {
+  background-color: #20c997;
+  color: #084c61;
+}

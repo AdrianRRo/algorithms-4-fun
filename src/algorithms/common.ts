@@ -29,10 +29,13 @@ export const setColors = (
     let array = resetColors(initialArray, notErase);
     array = resultsInitialIndex !== resultsFinalIndex ? setResultColors(array, resultsInitialIndex, resultsFinalIndex) : array; 
 
-    for(let i = 0; i < coloredItems.length; i++) {
+    for (let i = 0; i < coloredItems.length; i++) {
         const { value, color } = coloredItems[i];
-        const colorItemIndex = array.findIndex((item) => item.value === value )
-        array[colorItemIndex].color = color;
+        const colorItemIndex = array.findIndex((item) => item.value === value);
+        if (colorItemIndex === -1) {
+            continue;
+        }
+        array[colorItemIndex] = { ...array[colorItemIndex], color };
     }
     return array;
 }
