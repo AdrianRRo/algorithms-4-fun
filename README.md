@@ -1,4 +1,30 @@
-# React + TypeScript + Vite
+# algorithms-4-fun
+
+Interactive algorithm visualizations built with React + TypeScript + Vite.
+
+## Algorithms
+
+### Sorting
+
+| Algorithm | Time Complexity | Space Complexity | Page |
+|-----------|----------------|-----------------|------|
+| Bubble Sort | O(n²) | O(1) | `src/pages/BubbleSort/` |
+| Selection Sort | O(n²) | O(1) | `src/pages/SelectionSort/` |
+| Insertion Sort | O(n²) | O(1) | `src/pages/InsertionSort/` |
+| Quick Sort | O(n log n) avg | O(log n) | `src/pages/QuickSort/` |
+| **Merge Sort** | **O(n log n)** | **O(n)** | `src/pages/MergeSort/` |
+
+### Search
+
+| Algorithm | Time Complexity | Space Complexity |
+|-----------|----------------|-----------------|
+| Binary Search | O(log n) | O(1) |
+
+### Merge Sort
+
+Divide-and-conquer algorithm that recursively splits the array in half, sorts each half, and merges them back together. Guaranteed O(n log n) in all cases. The visualization shows each comparison (green) and placement (orange) during the merge phase.
+
+---
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

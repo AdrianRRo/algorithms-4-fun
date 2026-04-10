@@ -1,125 +1,80 @@
 import { BaseStep, Item } from "../types/algorithms";
 import { StepColors } from "../types/colors";
-import { setColors, swap } from "./common";
+import { resetColors } from "./common";
 
 const cloneItems = (items: Item[]): Item[] =>
   items.map((item) => ({ value: item.value, color: item.color }));
 
-const arraysMatch = (left: Item[], right: Item[]): boolean =>
-  left.length === right.length &&
-  left.every(
-    (item, index) =>
-      item.value === right[index].value && item.color === right[index].color,
-  );
+const mergeStep = (
+  array: Item[],
+  left: number,
+  mid: number,
+  right: number,
+  steps: BaseStep[]
+): void => {
+  const leftArr = array.slice(left, mid + 1).map((item) => item.value);
+  const rightArr = array.slice(mid + 1, right + 1).map((item) => item.value);
 
-export const mergeSort = (array: Item[]): BaseStep[] => {
-  let workingArray = cloneItems(array);
-  const steps: BaseStep[] = [];
+  let i = 0;
+  let j = 0;
+  let k = left;
 
-  const pushStep = () => {
-    const snapshot = cloneItems(workingArray);
-    const lastStep = steps[steps.length - 1];
+  while (i < leftArr.length && j < rightArr.length) {
+    // Highlight the two elements being compared
+    array[left + i].color = StepColors.HANDLING;
+    array[mid + 1 + j].color = StepColors.HANDLING;
+    steps.push({ array: cloneItems(array) });
 
-    if (!lastStep || !arraysMatch(lastStep.array, snapshot)) {
-      steps.push({ array: snapshot });
+    if (leftArr[i] <= rightArr[j]) {
+      array[k] = { value: leftArr[i], color: StepColors.SWAP };
+      i++;
+    } else {
+      array[k] = { value: rightArr[j], color: StepColors.SWAP };
+      j++;
     }
-  };
+    steps.push({ array: cloneItems(array) });
 
-  const recordComparison = (
-    start: number,
-    current: number,
-    coloredItems: Item[],
-  ) => {
-    workingArray = setColors(workingArray, coloredItems, start - 1, current - 1, true);
-    pushStep();
-  };
-
-  const placeValue = (start: number, current: number, value: number) => {
-    workingArray[current] = { value, color: StepColors.SWAP };
-    swap(workingArray, current, current);
-    pushStep();
-    workingArray = setColors(workingArray, [], start - 1, current, true);
-    pushStep();
-  };
-
-  const merge = (start: number, mid: number, end: number) => {
-    const buffer = cloneItems(workingArray.slice(start, end + 1)).map((item) => ({
-      value: item.value,
-      color: StepColors.DEFAULT,
-    }));
-
-    let left = 0;
-    let right = mid - start + 1;
-    let current = start;
-    const leftLimit = mid - start;
-    const rightLimit = end - start;
-
-    while (left <= leftLimit && right <= rightLimit) {
-      const leftItem = buffer[left];
-      const rightItem = buffer[right];
-
-      recordComparison(start, current, [
-        { value: leftItem.value, color: StepColors.HANDLING },
-        { value: rightItem.value, color: StepColors.HANDLING },
-      ]);
-
-      if (leftItem.value <= rightItem.value) {
-        placeValue(start, current, leftItem.value);
-        left += 1;
-      } else {
-        placeValue(start, current, rightItem.value);
-        right += 1;
-      }
-
-      current += 1;
-    }
-
-    while (left <= leftLimit) {
-      const buffered = buffer[left];
-      recordComparison(start, current, [
-        { value: buffered.value, color: StepColors.HANDLING },
-      ]);
-      placeValue(start, current, buffered.value);
-      left += 1;
-      current += 1;
-    }
-
-    while (right <= rightLimit) {
-      const buffered = buffer[right];
-      recordComparison(start, current, [
-        { value: buffered.value, color: StepColors.HANDLING },
-      ]);
-      placeValue(start, current, buffered.value);
-      right += 1;
-      current += 1;
-    }
-
-    workingArray = setColors(workingArray, [], start - 1, end, true);
-    pushStep();
-  };
-
-  const mergeSortRecursive = (start: number, end: number): void => {
-    if (start >= end) {
-      return;
-    }
-
-    const mid = Math.floor((start + end) / 2);
-    mergeSortRecursive(start, mid);
-    mergeSortRecursive(mid + 1, end);
-    merge(start, mid, end);
-  };
-
-  if (workingArray.length === 0) {
-    steps.push({ array: [] });
-    return steps;
+    // Reset color of placed element
+    array[k].color = StepColors.DEFAULT;
+    k++;
   }
 
-  workingArray = setColors(workingArray, [], -1, -1);
-  pushStep();
-  mergeSortRecursive(0, workingArray.length - 1);
+  while (i < leftArr.length) {
+    array[k] = { value: leftArr[i], color: StepColors.SWAP };
+    steps.push({ array: cloneItems(array) });
+    array[k].color = StepColors.DEFAULT;
+    i++;
+    k++;
+  }
 
-  workingArray = setColors(workingArray, [], -1, workingArray.length - 1);
-  pushStep();
+  while (j < rightArr.length) {
+    array[k] = { value: rightArr[j], color: StepColors.SWAP };
+    steps.push({ array: cloneItems(array) });
+    array[k].color = StepColors.DEFAULT;
+    j++;
+    k++;
+  }
+};
+
+const mergeSortRecursive = (
+  array: Item[],
+  left: number,
+  right: number,
+  steps: BaseStep[]
+): void => {
+  if (left >= right) return;
+
+  const mid = Math.floor((left + right) / 2);
+  mergeSortRecursive(array, left, mid, steps);
+  mergeSortRecursive(array, mid + 1, right, steps);
+  mergeStep(array, left, mid, right, steps);
+};
+
+export const mergeSort = (array: Item[]): BaseStep[] => {
+  const workingArray = resetColors(array);
+  const steps: BaseStep[] = [{ array: cloneItems(workingArray) }];
+
+  mergeSortRecursive(workingArray, 0, workingArray.length - 1, steps);
 
   return steps;
 };
