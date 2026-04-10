@@ -5,8 +5,22 @@
 .dijkstra-controls {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  max-width: 480px;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.dijkstra-selectors {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem 2rem;
+}
+
+.dijkstra-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 160px;
 }
 
 .dijkstra-label {
@@ -16,12 +30,90 @@
 .dijkstra-select {
   padding: 0.5rem;
   border-radius: 4px;
-  border: 1px solid #cccccc;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  width: 100%;
   max-width: 200px;
+}
+
+.dijkstra-distance {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.dijkstra-graph-wrapper {
+  width: 100%;
+  max-width: 640px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+  background: linear-gradient(135deg, #111827, #1f2937);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.2);
+  overflow-x: auto;
+}
+
+.dijkstra-svg {
+  width: min(100%, 500px);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.dijkstra-edge-group {
+  pointer-events: none;
+}
+
+.dijkstra-edge {
+  stroke: #4b5563;
+  stroke-width: 2;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+
+.dijkstra-edge--path {
+  stroke: #f59e0b;
+  stroke-width: 3;
+}
+
+.dijkstra-weight-bg {
+  fill: rgba(31, 41, 55, 0.7);
+}
+
+.dijkstra-weight-text {
+  fill: #f9fafb;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.dijkstra-node {
+  fill: #374151;
+  stroke: #9ca3af;
+  stroke-width: 2;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.dijkstra-node--path {
+  fill: #f59e0b;
+  stroke: #d97706;
+}
+
+.dijkstra-node--start {
+  fill: #3b82f6;
+  stroke: #1d4ed8;
+}
+
+.dijkstra-node--end {
+  fill: #10b981;
+  stroke: #047857;
+}
+
+.dijkstra-node-label {
+  fill: #f9fafb;
+  font-weight: 700;
 }
 
 .dijkstra-tables {
   display: grid;
   gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 0.5rem;
 }
