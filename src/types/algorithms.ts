@@ -17,11 +17,24 @@ export interface StepMetadata {
     leftBuffer?: Item[];
     rightBuffer?: Item[];
     mergedBuffer?: Item[];
+    phase?: "build" | "extract";
+    heapSize?: number;
+    highlightedIndices?: number[];
+    swapped?: [number, number];
+    currentRoot?: number;
 }
 
 export interface MergeSortStep extends BaseStep {
     metadata?: StepMetadata & {
         stage: "split" | "merge" | "compare";
         subarrayDepth: number;
+    };
+}
+
+export interface HeapSortStep extends BaseStep {
+    metadata?: StepMetadata & {
+        phase: "build" | "extract";
+        heapSize: number;
+        highlightedIndices: number[];
     };
 }
