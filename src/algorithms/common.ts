@@ -31,8 +31,12 @@ export const setColors = (
 
     for(let i = 0; i < coloredItems.length; i++) {
         const { value, color } = coloredItems[i];
-        const colorItemIndex = array.findIndex((item) => item.value === value )
+        const colorItemIndex = array.findIndex((item) => item.value === value );
+        if (colorItemIndex === -1) {
+            continue;
+        }
         array[colorItemIndex].color = color;
+
     }
     return array;
 }
