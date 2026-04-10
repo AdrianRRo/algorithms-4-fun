@@ -1,0 +1,17 @@
+.grid-cell {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #1f2937;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1f2937;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.grid-cell:hover {
+  transform: scale(1.05);
+}
